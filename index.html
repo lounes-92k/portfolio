@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Mon portfolio</title>
+        <meta type="description" content="Ceci est mon portfolio etudiant" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="styles/styles.css" type="text/css">
+    </head>
+
+    <body>
+        <div id="progress-bar"></div>
+        <header>
+            <div class="boxed">
+                <div class="flex aligncenter space-between">
+                    <a href="/" class="header-logo">
+                        <img src="img/logo.png">
+                    </a>
+                    <ul class="header-menu">
+                        <li><a href="#home">Accueil</a></li>
+                        <li><a href="#apropos">À propos</a></li>
+                        <li><a href="#competences">Compétences</a></li>
+                        <li><a href="#realisations">Réalisations</a></li>
+                        <!--La même liste mais avec l'onglet Veille Techno-->
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                    <div class="burger">
+                       <span></span>
+                       <span></span>
+                       <span></span>
+                    </div>
+                    <button class="theme-toggle">🌙</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="slider" id="home">
+            <img src="img/slider4.jpg" class="slider-background">
+            <div class="slider-content">
+                <h1>Lounes Saidani</h1>
+                <p>Développeur web full-stack en formation</p>
+                <p>Étudiant en BTS SIO option SLAM<br>À la recherche d’un stage </p>
+                <a href="cv/Lounes-Saidani-CV.pdf" class="btn" target="_blank">Télécharger mon CV
+                </a>
+            </div>
+        </div>
+
+        <div class="section" id="apropos">
+             <div class="boxed">
+                <div class="flex">
+                    <div class="w40">
+                        <h2>À propos de moi</h2>
+                    </div>
+                    <div class="w60">
+                        <p>Étudiant en BTS SIO option SLAM, je me spécialise dans le développement web et applicatif.
+                        J’aime créer des interfaces modernes, efficaces et accessibles.
+                        Actuellement à la recherche d’un stage, je souhaite renforcer mes compétences en développement
+                        full-stack et travailler sur des projets concrets en équipe.
+                        </p>
+                    </div>
+                </div>
+             </div>
+        </div>
+
+        <div class="section dark" id="competences">
+            <div class="boxed text-center">
+                <h2>Découvrez mes compétences</h2>
+                <div class="flex gap20">
+                    <div class="w25 skill">
+                        <img src="img/html-logo.png">
+                        <h3>HTML</h3>
+                        <div class="bar">
+                            <span style="width:90%"></span>
+                        </div>
+                    </div>
+                    <div class="w25 skill">
+                        <img src="img/css-logo.png">
+                        <h3>CSS</h3>
+                        <div class="bar">
+                        <span style="width:85%"></span>
+                        </div>
+                    </div>
+                    <div class="w25 skill">
+                        <img src="img/js-logo.png">
+                        <h3>JS</h3>
+                        <div class="bar">
+                        <span style="width:65%"></span>
+                        </div>
+                    </div>
+                    <div class="w25 skill">
+                        <img src="img/sql-logo.png">
+                        <h3>SQL</h3>
+                        <div class="bar">
+                        <span style="width:70%"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="realisations">
+            <div class="boxed text-center">
+                <h2>Mes réalisations</h2>
+                <div class="flex wrap gap20 space-between">
+                    <div class="w32 realisation">
+                        <a href="https://mon-site.com" target="_blank">
+                            <img src="img/création.jpg">
+                            <h3>Site de cuisine<br>
+                            <small>HTML • CSS • JS</small> 
+                            </h3>
+                        </a>
+                    </div>
+                    <div class="w32 realisation">
+                        <a href="/">
+                            <img src="img/création.jpg">
+                        </a>
+                    </div>
+                    <div class="w32 realisation">
+                        <a href="/">
+                            <img src="img/création.jpg">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section dark" id="contact">
+            <div class="boxed text-center">
+                <h2>Contactez-moi</h2>
+                <div class="flex space-between">
+                    <div class="w32 contact">
+                        <span class="material-icons icon">mark_email_unread</span>
+                        <span class="label">E-mail</span>
+                        <span class="value">lounes.saidani92@gmail.com</span>
+                    </div>
+                      <div class="w32 contact">
+                        <span class="material-icons icon">call</span>
+                        <span class="label">Numéro de téléphone</span>
+                        <span class="value">06 09 38 56 54</span>
+                    </div>
+                    <div class="w32 contact">
+                        <span class="fa-brands fa-discord icon"></span>
+                        <span class="label">discord</span>
+                        <span class="value">loulou_vendetaa</span>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+
+        <footer class="footer">
+          <p>© 2025 • Lounes Saidani • Portfolio étudiant</p>
+        </footer>
+    
+    </body>
+
+    <script src="js/app.js"></script>
+</html>
