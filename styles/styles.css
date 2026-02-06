@@ -557,3 +557,137 @@ body.darkmode .contact {
     background: linear-gradient(90deg, #f06423, #ff8c42);
     z-index: 2000;
 }
+
+/* Section Veille Technologique */
+.veille-intro {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-bottom: 40px;
+}
+
+.rss-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px 25px;
+    margin-top: 40px;
+}
+
+.rss-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.rss-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.rss-item h3 {
+     font-size: 1.1rem;
+    margin-bottom: 10px;
+    line-height: 1.3;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* max 2 lignes */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.rss-item h3 a {
+    color: inherit;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.rss-item h3 a:hover {
+    color: var(--main-color);
+}
+
+.rss-date {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rss-date .material-icons {
+    font-size: 16px;
+}
+
+.rss-description {
+    color: #444;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+
+    /* Limitation de hauteur */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 3 lignes max */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.rss-source {
+    font-size: 0.85rem;
+    color: var(--main-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.rotating {
+    animation: rotate 2s linear infinite;
+    font-size: 48px !important;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.rss-error {
+    background: #fee;
+    color: #c33;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Dark mode */
+body.darkmode .rss-item {
+    background: #1e293b;
+    color: #fff;
+}
+
+body.darkmode .rss-item h3 {
+    color: #fff;
+}
+
+body.darkmode .rss-description {
+    color: #cbd5e1;
+}
+
+body.darkmode .rss-date {
+    color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+    .rss-container {
+         gap: 30px
+    }
+}
