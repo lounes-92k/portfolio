@@ -19,17 +19,6 @@ window.addEventListener("scroll", () => {
     });
 });
 
-const reveals = document.querySelectorAll(".section");
-
-window.addEventListener("scroll", () => {
-    reveals.forEach(section => {
-        const top = section.getBoundingClientRect().top;
-        if (top < window.innerHeight - 100) {
-            section.classList.add("active");
-        }
-    });
-});
-
 const burger = document.querySelector(".burger");
 const menu = document.querySelector(".header-menu");
 
