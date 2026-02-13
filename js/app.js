@@ -40,65 +40,53 @@ window.addEventListener("scroll", () => {
 });
 
 // ==========================
-// VEILLE TECHNO - FLUX RSS
+// VEILLE TECHNO - FLUX RSS (AUTOMATIQUE)
 // ==========================
 
-const RSS_URL = "https://www.lemonde.fr/pixels/rss_full.xml";
-// autres idées :
-// https://www.numerama.com/feed/
-// https://korben.info/feed
-// https://www.frandroid.com/feed
-
-// Flux RSS - Veille Technologique - Blog du Modérateur
 function loadRSSFeed() {
-    const rssContainer = document.getElementById('rss-feed');
-    
-    // Articles réels du Blog du Modérateur (catégorie Tech)
-    const articles = [
-        {
-            title: "OpenAI dévoile GPT-5.3 Codex",
-            link: "https://www.blogdumoderateur.com/openai-devoile-gpt-5-3-codex/",
-            description: "OpenAI présente GPT-5.3 Codex, une nouvelle version de son modèle d'IA spécialisé dans la génération de code. Des performances améliorées pour les développeurs.",
-            pubDate: "2025-02-09"
-        },
-        {
-            title: "Google déploie Developer Knowledge API et son serveur MCP associé",
-            link: "https://www.blogdumoderateur.com/google-deploie-developer-knowledge-api-serveur-mcp-associe/",
-            description: "Google lance Developer Knowledge API avec son serveur MCP pour faciliter l'accès aux ressources de développement et améliorer la productivité des équipes techniques.",
-            pubDate: "2025-02-08"
-        },
-        {
-            title: "GitHub accélère l'IA avec Claude Codex",
-            link: "https://www.blogdumoderateur.com/github-accelere-ia-claude-codex/",
-            description: "GitHub intègre Claude Codex pour améliorer ses fonctionnalités d'assistance au développement. Une collaboration qui promet de révolutionner l'expérience des développeurs.",
-            pubDate: "2025-02-07"
-        },
-        {
-            title: "Les métiers impactés par l'IA",
-            link: "https://www.blogdumoderateur.com/metiers-impactes-par-ia/",
-            description: "Analyse des professions les plus touchées par l'essor de l'intelligence artificielle. Quels métiers sont transformés, menacés ou créés par cette révolution technologique ?",
-            pubDate: "2025-02-06"
-        },
-        {
-            title: "OpenAI lance une application macOS pour Codex",
-            link: "https://www.blogdumoderateur.com/openai-lance-application-macos-codex/",
-            description: "OpenAI déploie une application native macOS pour Codex, permettant aux développeurs Mac d'accéder plus facilement aux capacités de génération de code de l'IA.",
-            pubDate: "2025-02-05"
-        },
-        {
-            title: "IA : les meilleurs modèles pour le code et le développement web en février 2026",
-            link: "https://www.blogdumoderateur.com/ia-meilleurs-modeles-code-developpement-web-fevrier-2026/",
-            description: "Comparatif des modèles d'IA les plus performants pour assister les développeurs web : GPT, Claude, Codex... Quel outil choisir pour optimiser votre productivité ?",
-            pubDate: "2025-02-04"
-        }
-    ];
-    
-    displayRSSItems(articles, 'Blog du Modérateur');
+    const rssContainer = document.getElementById("rss-feed");
+
+    // Afficher le loader pendant le chargement
+    rssContainer.innerHTML = `
+        <div class="loading">
+            <span class="material-icons rotating">refresh</span>
+            <p>Chargement des articles...</p>
+        </div>
+    `;
+
+    const rssUrl = "https://www.blogdumoderateur.com/feed/";
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erreur réseau");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data.items || data.items.length === 0) {
+                throw new Error("Flux vide");
+            }
+
+            const articles = data.items.slice(0, 6); // 6 derniers articles
+            displayRSSItems(articles, "Blog du Modérateur");
+        })
+        .catch(error => {
+            rssContainer.innerHTML = `
+                <div class="rss-error">
+                    <span class="material-icons">error</span>
+                    <p>Impossible de charger les actualités pour le moment.</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Veuillez réessayer plus tard.</p>
+                </div>
+            `;
+            console.error("Erreur RSS :", error);
+        });
 }
 
-function displayRSSItems(items, sourceName = 'Tech News') {
-    const rssContainer = document.getElementById('rss-feed');
-    
+function displayRSSItems(items, sourceName = "Blog du Modérateur") {
+    const rssContainer = document.getElementById("rss-feed");
+
     if (!items || items.length === 0) {
         rssContainer.innerHTML = `
             <div class="rss-error">
@@ -108,40 +96,61 @@ function displayRSSItems(items, sourceName = 'Tech News') {
         `;
         return;
     }
-    
+
     const html = items.map(item => {
+        // Nettoyer la description (supprime le HTML)
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = item.description || "";
+        const cleanDescription = tempDiv.textContent || tempDiv.innerText || "Pas de description disponible.";
+
+        // Récupérer l'image si elle existe
+        const imageHTML = item.thumbnail || item.enclosure?.link
+            ? `
+                <div class="rss-image">
+                    <img src="${item.thumbnail || item.enclosure.link}" alt="${item.title}" onerror="this.parentElement.style.display='none'">
+                </div>
+            `
+            : "";
+
+        // Formater la date
         const date = new Date(item.pubDate);
-        const formattedDate = date.toLocaleDateString('fr-FR', {
+        const formattedDate = date.toLocaleDateString("fr-FR", {
             day: 'numeric',
             month: 'long',
             year: 'numeric'
         });
-        
+
         return `
             <div class="rss-item reveal">
                 <div class="rss-content">
+                    ${imageHTML}
                     <div class="rss-source">${sourceName}</div>
-                    <h3><a href="${item.link}" target="_blank" rel="noopener">${item.title}</a></h3>
+                    <h3>
+                        <a href="${item.link}" target="_blank" rel="noopener noreferrer">
+                            ${item.title}
+                        </a>
+                    </h3>
                     <div class="rss-date">
                         <span class="material-icons">schedule</span>
                         ${formattedDate}
                     </div>
-                    <p class="rss-description">${item.description}</p>
+                    <p class="rss-description">${cleanDescription.substring(0, 150)}...</p>
                 </div>
             </div>
         `;
-    }).join('');
-    
+    }).join("");
+
     rssContainer.innerHTML = html;
-    
-    // Réactiver l'animation reveal
+
+    // Animation d'apparition progressive
     setTimeout(() => {
-        document.querySelectorAll('.rss-item.reveal').forEach(item => {
-            item.classList.add('active');
+        document.querySelectorAll(".rss-item.reveal").forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.add("active");
+            }, index * 100); // Décalage de 100ms entre chaque carte
         });
     }, 100);
 }
 
-// Charger le flux au chargement de la page
-document.addEventListener('DOMContentLoaded', loadRSSFeed);
-
+// Charger automatiquement au démarrage
+document.addEventListener("DOMContentLoaded", loadRSSFeed);
