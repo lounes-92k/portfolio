@@ -40,7 +40,7 @@ window.addEventListener("scroll", () => {
 });
 
 // ==========================
-// VEILLE TECHNO - FLUX RSS (AUTOMATIQUE)
+// VEILLE TECHNO - FLUX RSS IA RÉCENTS (2026)
 // ==========================
 
 function loadRSSFeed() {
@@ -50,33 +50,106 @@ function loadRSSFeed() {
     rssContainer.innerHTML = `
         <div class="loading">
             <span class="material-icons rotating">refresh</span>
-            <p>Chargement des articles...</p>
+            <p>Chargement des dernières actualités IA...</p>
         </div>
     `;
 
-    const rssUrl = "https://www.blogdumoderateur.com/feed/";
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+    // ✅ FLUX RSS ACTIFS ET RÉCENTS SUR L'IA (2026)
+    const rssSources = [
+        {
+            url: "https://www.lemondeinformatique.fr/flux-rss/intelligence-artificielle/rss.xml",
+            name: "Le Monde Informatique"
+        },
+        {
+            url: "https://www.blogdumoderateur.com/feed/",
+            name: "Blog du Modérateur",
+            filter: true // On va filtrer les articles IA
+        },
+        {
+            url: "https://www.usine-digitale.fr/intelligence-artificielle/rss",
+            name: "Usine Digitale"
+        },
+        {
+            url: "https://www.journaldunet.com/intelligence-artificielle/rss",
+            name: "Journal du Net"
+        }
+    ];
 
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Erreur réseau");
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (!data.items || data.items.length === 0) {
-                throw new Error("Flux vide");
+    // Mots-clés pour filtrer les articles sur l'IA
+    const aiKeywords = [
+        'intelligence artificielle',
+        'ia',
+        'ai',
+        'chatgpt',
+        'openai',
+        'deepmind',
+        'machine learning',
+        'deep learning',
+        'algorithme',
+        'llm',
+        'gpt',
+        'claude',
+        'gemini',
+        'copilot',
+        'automatisation'
+    ];
+
+    // Fonction pour vérifier si un article parle d'IA
+    function isAIRelated(item) {
+        const text = (item.title + ' ' + item.description).toLowerCase();
+        return aiKeywords.some(keyword => text.includes(keyword));
+    }
+
+    // Charger tous les flux en parallèle
+    const fetchPromises = rssSources.map(source => 
+        fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(source.url)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.items && data.items.length > 0) {
+                    let items = data.items;
+                    
+                    // Si on doit filtrer (Blog du Modérateur), ne garder que les articles IA
+                    if (source.filter) {
+                        items = items.filter(item => isAIRelated(item));
+                    }
+                    
+                    // Ajouter le nom de la source à chaque article
+                    return items.slice(0, 3).map(item => ({
+                        ...item,
+                        sourceName: source.name
+                    }));
+                }
+                return [];
+            })
+            .catch(error => {
+                console.error(`Erreur lors du chargement de ${source.name}:`, error);
+                return [];
+            })
+    );
+
+    // Attendre que tous les flux soient chargés
+    Promise.all(fetchPromises)
+        .then(results => {
+            // Fusionner tous les articles
+            const allArticles = results.flat();
+
+            if (allArticles.length === 0) {
+                throw new Error("Aucun article trouvé");
             }
 
-            const articles = data.items.slice(0, 6); // 6 derniers articles
-            displayRSSItems(articles, "Blog du Modérateur");
+            // Trier par date (plus récent en premier)
+            allArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+            // Prendre les 9 articles les plus récents
+            const recentArticles = allArticles.slice(0, 9);
+
+            displayRSSItems(recentArticles);
         })
         .catch(error => {
             rssContainer.innerHTML = `
                 <div class="rss-error">
                     <span class="material-icons">error</span>
-                    <p>Impossible de charger les actualités pour le moment.</p>
+                    <p>Impossible de charger les actualités IA pour le moment.</p>
                     <p style="font-size: 0.9rem; margin-top: 10px;">Veuillez réessayer plus tard.</p>
                 </div>
             `;
@@ -84,7 +157,7 @@ function loadRSSFeed() {
         });
 }
 
-function displayRSSItems(items, sourceName = "Blog du Modérateur") {
+function displayRSSItems(items) {
     const rssContainer = document.getElementById("rss-feed");
 
     if (!items || items.length === 0) {
@@ -124,7 +197,7 @@ function displayRSSItems(items, sourceName = "Blog du Modérateur") {
             <div class="rss-item reveal">
                 <div class="rss-content">
                     ${imageHTML}
-                    <div class="rss-source">${sourceName}</div>
+                    <div class="rss-source">${item.sourceName}</div>
                     <h3>
                         <a href="${item.link}" target="_blank" rel="noopener noreferrer">
                             ${item.title}
