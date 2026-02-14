@@ -40,6 +40,33 @@ window.addEventListener("scroll", () => {
 });
 
 // ==========================
+// COPIE D'EMAIL AU CLIC
+// ==========================
+
+function copyEmail() {
+    const email = "lounes.saidani92@gmail.com";
+    
+    // Copier l'email dans le presse-papier
+    navigator.clipboard.writeText(email).then(() => {
+        // Afficher un message de confirmation
+        const emailElement = document.querySelector(".email-copy");
+        const originalText = emailElement.textContent;
+        
+        emailElement.textContent = "✓ Email copié !";
+        emailElement.style.color = "#4ade80";
+        
+        // Revenir au texte original après 2 secondes
+        setTimeout(() => {
+            emailElement.textContent = originalText;
+            emailElement.style.color = "";
+        }, 2000);
+    }).catch(err => {
+        console.error("Erreur lors de la copie :", err);
+        alert("Email : " + email);
+    });
+}
+
+// ==========================
 // VEILLE TECHNO - FLUX RSS IA RÉCENTS (2026)
 // ==========================
 

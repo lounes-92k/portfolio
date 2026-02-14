@@ -541,6 +541,17 @@ header .flex {
     font-weight: 600;
 }
 
+.email-copy {
+    cursor: pointer;
+    transition: 0.3s ease;
+    user-select: none;
+}
+
+.email-copy:hover {
+    color: var(--main-color) !important;
+    transform: scale(1.05);
+}
+
 /* ========================================
    FORMATION SECTION
 ======================================== */

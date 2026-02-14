@@ -22,7 +22,6 @@
                         <li><a href="#apropos">À propos</a></li>
                         <li><a href="#competences">Compétences</a></li>
                         <li><a href="#realisations">Réalisation</a></li>
-                        <!--La même liste mais avec l'onglet Veille Techno-->
                         <li><a href="#veille">Veille Techno</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
@@ -51,24 +50,24 @@
         </div>
 
         <div class="section" id="apropos">
-          <div class="boxed">
-        <div class="text-center">
-            <h2>À propos de moi</h2>
+             <div class="boxed">
+                <div class="text-center">
+                    <h2>À propos de moi</h2>
+                </div>
+                <div class="apropos-content">
+                    <div class="apropos-image">
+                        <img src="img/profile-png.jpg" alt="Lounès SAIDANI">
+                    </div>
+                    <div class="apropos-text">
+                        <p>Étudiant en BTS SIO option SLAM, je me spécialise dans le développement web et applicatif.
+                        J'aime créer des interfaces modernes, efficaces et accessibles.
+                        Actuellement à la recherche d'un stage, je souhaite renforcer mes compétences en développement
+                        full-stack et travailler sur des projets concrets en équipe.
+                        </p>
+                    </div>
+                </div>
+             </div>
         </div>
-        <div class="apropos-content">
-            <div class="apropos-image">
-                <img src="img/profile-png.jpg" alt="Lounès SAIDANI">
-            </div>
-            <div class="apropos-text">
-                <p>Étudiant en BTS SIO option SLAM, je me spécialise dans le développement web et applicatif.
-                J'aime créer des interfaces modernes, efficaces et accessibles.
-                Actuellement à la recherche d'un stage, je souhaite renforcer mes compétences en développement
-                full-stack et travailler sur des projets concrets en équipe.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
         
         <section class="formation" id="formation">
           <div class="container">
@@ -198,6 +197,7 @@
             <div class="boxed text-center">
              <h2>Veille technologique</h2>
              <p class="veille-intro">Les dernières actualités sur l'Intelligence Artificielle</p>
+        
                     <div id="rss-feed" class="rss-container">
                         <div class="loading">
                           <span class="material-icons rotating">refresh</span>
@@ -213,7 +213,9 @@
                 <div class="flex space-between">
                     <div class="w32 contact">
                         <span class="material-icons icon">mark_email_unread</span>
-                        <span class="value">lounes.saidani92@gmail.com</span>
+                        <span class="value email-copy" onclick="copyEmail()" title="Cliquer pour copier">
+                            lounes.saidani92@gmail.com
+                        </span>
                     </div>
                       <div class="w32 contact">
                         <span class="material-icons icon">call</span>
