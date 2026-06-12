@@ -665,10 +665,37 @@ header.scrolled {
 /* ========================================
    VEILLE TECHNOLOGIQUE
 ======================================== */
+#veille {
+    background: linear-gradient(135deg, #1D4ED8, #2563EB);
+    color: white;
+}
+
+#veille h2,
+#veille .veille-intro {
+    color: white;
+}
+
+#veille .rss-item {
+    background: #1E293B;
+    color: white;
+}
+
+#veille .rss-description {
+    color: #CBD5E1;
+}
+
+#veille .rss-date {
+    color: #94A3B8;
+}
+
 .veille-intro {
     font-size: 1.2rem;
     opacity: 0.8;
     margin-bottom: 40px;
+}
+
+#veille h2::after {
+    background: white;
 }
 
 .rss-container {
@@ -1017,3 +1044,88 @@ body.darkmode .rss-date {
         text-align: center;
     }
 }
+
+            /* ── CAROUSEL COMPÉTENCES ── */
+            .skills-carousel {
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+            }
+
+            .skills-track {
+                display: flex;
+                transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                will-change: transform;
+            }
+
+            .skills-slide {
+                min-width: 100%;
+                padding: 0 60px 20px;
+                box-sizing: border-box;
+                text-align: center;
+            }
+
+            .skills-slide .flex {
+                justify-content: center;
+            }
+
+            /* Boutons prev / next */
+            .carousel-btn {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(255,255,255,0.15);
+                border: 2px solid rgba(255,255,255,0.4);
+                color: #fff;
+                border-radius: 50%;
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s;
+                z-index: 10;
+            }
+            .carousel-btn:hover {
+                background: rgba(255,255,255,0.3);
+            }
+            .carousel-btn.prev { left: 8px; }
+            .carousel-btn.next { right: 8px; }
+
+            /* Indicateurs de points */
+            .carousel-dots {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+                margin-top: 20px;
+            }
+            .carousel-dots span {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.3);
+                cursor: pointer;
+                transition: background 0.3s, transform 0.3s;
+            }
+            .carousel-dots span.active {
+                background: #fff;
+                transform: scale(1.3);
+            }
+
+            .carousel-label {
+                font-size: 0.8rem;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                opacity: 0.5;
+                margin-bottom: 16px;
+            }
+      
+#certifications .realisation img {
+    min-height: 250px;
+    object-fit: contain;
+    background: #fff;
+    padding: 15px;
+}
+

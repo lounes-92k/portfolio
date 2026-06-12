@@ -294,3 +294,50 @@ window.addEventListener("scroll", () => {
     }
 
 });
+
+        // ── CAROUSEL COMPÉTENCES ──
+        const track     = document.getElementById('skillsTrack');
+        const slides    = track.querySelectorAll('.skills-slide');
+        const dotsWrap  = document.getElementById('carouselDots');
+        const prevBtn   = document.getElementById('prevBtn');
+        const nextBtn   = document.getElementById('nextBtn');
+        const currentEl = document.getElementById('carousel-current');
+        const totalEl   = document.getElementById('carousel-total');
+
+        let current = 0;
+        const total = slides.length;
+        totalEl.textContent = total;
+
+        // Créer les points
+        slides.forEach((_, i) => {
+            const dot = document.createElement('span');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goTo(i));
+            dotsWrap.appendChild(dot);
+        });
+
+        function goTo(index) {
+            current = (index + total) % total;
+            track.style.transform = 'translateX(-' + (current * 100) + '%)';
+            dotsWrap.querySelectorAll('span').forEach((d, i) => {
+                d.classList.toggle('active', i === current);
+            });
+            currentEl.textContent = current + 1;
+        }
+
+        prevBtn.addEventListener('click', () => goTo(current - 1));
+        nextBtn.addEventListener('click', () => goTo(current + 1));
+
+        // Swipe tactile
+        let touchStartX = 0;
+        track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+        track.addEventListener('touchend', e => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+        });
+
+        // Clavier (flèches gauche/droite)
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft')  goTo(current - 1);
+            if (e.key === 'ArrowRight') goTo(current + 1);
+        });
